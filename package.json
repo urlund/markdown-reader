@@ -9,7 +9,7 @@
     "build:mac": "electron-builder --mac",
     "build:win": "electron-builder --win",
     "build:linux": "electron-builder --linux",
-    "publish": "set -a && source .env && set +a && electron-builder --publish=always",
+    "publish": "set -a && source .env && set +a && electron-builder --mac --win --linux --publish=always",
     "publish:mac": "set -a && source .env && set +a && electron-builder --mac --publish=always",
     "publish:win": "set -a && source .env && set +a && electron-builder --win --publish=always",
     "publish:linux": "set -a && source .env && set +a && electron-builder --linux --publish=always",
