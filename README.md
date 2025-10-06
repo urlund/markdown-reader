@@ -115,8 +115,8 @@ A feature-rich, professional markdown document reader built with Electron. This 
 ### From Source
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/electron-markdown-reader.git
-cd electron-markdown-reader
+git clone https://github.com/urlund/markdown-reader.git
+cd markdown-reader
 
 # Install dependencies
 npm install
@@ -174,7 +174,7 @@ npm run test -- --testNamePattern="Tab"
 
 ### File Structure
 ```
-electron-markdown-reader/
+markdown-reader/
 ├── main.js              # Main Electron process
 ├── preload.js           # Preload script for secure IPC
 ├── renderer/            # Renderer process files

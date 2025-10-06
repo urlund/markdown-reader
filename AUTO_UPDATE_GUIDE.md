@@ -20,8 +20,8 @@ The auto-updater is configured in `package.json`:
 "publish": [
   {
     "provider": "github",
-    "owner": "your-github-username", 
-    "repo": "electron-markdown-reader"
+    "owner": "urlund", 
+    "repo": "markdown-reader"
   }
 ]
 ```

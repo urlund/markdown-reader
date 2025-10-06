@@ -69,7 +69,7 @@ print(f"Sorted: {sorted_numbers}")
 
 ```json
 {
-  "name": "electron-markdown-reader",
+  "name": "markdown-reader",
   "version": "1.0.0",
   "description": "A powerful markdown reader with syntax highlighting",
   "main": "main.js",

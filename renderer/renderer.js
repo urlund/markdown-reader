@@ -19,7 +19,7 @@ let nextTabId = 1;
 
 // Recent Files Management using localStorage
 const MAX_RECENT_FILES = 10;
-const RECENT_FILES_KEY = 'electron-markdown-reader-recent-files';
+const RECENT_FILES_KEY = 'markdown-reader-recent-files';
 
 // Cross-platform filename extraction
 function extractFileName(filePath) {

@@ -1,5 +1,5 @@
 {
-  "name": "electron-markdown-reader",
+  "name": "markdown-reader",
   "version": "1.1.3",
   "description": "Offline, read-only Markdown reader built with Electron, with theme menu and build script",
   "main": "main.js",
@@ -27,8 +27,8 @@
     "publish": [
       {
         "provider": "github",
-        "owner": "your-github-username",
-        "repo": "electron-markdown-reader"
+        "owner": "urlund",
+        "repo": "markdown-reader"
       }
     ],
     "files": [
