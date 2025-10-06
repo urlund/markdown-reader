@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="da">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self';" />
+        <title>Markdown Reader</title>
+        <link rel="stylesheet" href="styles.css" />
+        <!-- Prism.js syntax highlighting CSS -->
+        <link rel="stylesheet" id="prism-theme" href="../node_modules/prismjs/themes/prism.css" />
+        <!-- Lucide Icons (local package) -->
+        <script src="../node_modules/lucide/dist/umd/lucide.js"></script>
+    </head>
+    <body>
+        <!-- Tab Bar -->
+        <div id="tabBar" class="tab-bar hidden">
+            <div class="tabs-container">
+                <!-- Tabs will be dynamically added here -->
+                <button id="newTabBtn" class="new-tab-btn" title="New Tab">+</button>
+            </div>
+        </div>
+        
+        <main id="content">
+            <!-- Content will be dynamically loaded -->
+        </main>
+        
+        <!-- Table of Contents Overlay -->
+        <div id="tocOverlay" class="toc-overlay hidden">
+            <div class="toc-container">
+                <div class="toc-header">
+                    <h3>Table of Contents</h3>
+                    <button id="tocClose" class="toc-close">×</button>
+                </div>
+                <div class="toc-search">
+                    <div class="toc-search-input-group">
+                        <input type="text" id="tocSearchInput" placeholder="Search headings..." />
+                        <button id="tocSearchCaseSensitive" class="search-option-btn toc-search-btn" title="Toggle case-sensitive search">Aa</button>
+                        <div id="tocSearchClear" class="toc-search-clear hidden">×</div>
+                    </div>
+                </div>
+                <div id="tocContent" class="toc-content">
+                    <!-- TOC will be populated here -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Document Search Overlay -->
+        <div id="searchOverlay" class="search-overlay hidden">
+            <div class="search-container">
+                <div class="search-input-container">
+                    <div class="search-input-group">
+                        <input type="text" id="searchInput" placeholder="Search document..." autocomplete="off" spellcheck="false" />
+                        <button id="searchCaseSensitive" class="search-option-btn search-input-btn" title="Case Sensitive">Aa</button>
+                    </div>
+                    <div class="search-controls">
+                        <span id="searchCounter" class="search-counter"></span>
+                        <button id="searchPrev" class="search-nav-btn" title="Previous">↑</button>
+                        <button id="searchNext" class="search-nav-btn" title="Next">↓</button>
+                        <button id="searchClose" class="search-close">×</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Overlay -->
+        <div id="settingsOverlay" class="settings-overlay hidden">
+            <div class="settings-container">
+                <div class="settings-header">
+                    <h3>Settings</h3>
+                    <button id="settingsClose" class="settings-close">×</button>
+                </div>
+                <div class="settings-content">
+                    <div class="setting-group">
+                        <label class="setting-label">Default Theme</label>
+                        <div class="setting-options">
+                            <label class="radio-option">
+                                <input type="radio" name="defaultTheme" value="system" checked>
+                                <span class="radio-custom"></span>
+                                Follow System
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="defaultTheme" value="light">
+                                <span class="radio-custom"></span>
+                                Light Theme
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="defaultTheme" value="dark">
+                                <span class="radio-custom"></span>
+                                Dark Theme
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-footer">
+                    <div class="app-version">
+                        <span id="appVersion">Loading version...</span>
+                    </div>
+                    <button id="settingsSave" class="settings-save-btn">Save Settings</button>
+                </div>
+            </div>
+        </div>
+        
+        <script src="renderer.js"></script>
+    </body>
+</html>

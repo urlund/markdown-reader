@@ -1,0 +1,33 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="15" stdDeviation="25" flood-color="rgba(0,0,0,0.3)"/>
+    </filter>
+  </defs>
+  
+  <!-- Purple gradient background shape (rounded rectangle) -->
+  <rect x="100" y="100" width="824" height="824" rx="150" ry="150" fill="url(#purpleGradient)" filter="url(#shadow)"/>
+  
+  
+  <!-- MD text centered on purple background (25% larger) -->
+  <text x="512" y="420" 
+        font-family="-apple-system, BlinkMacSystemFont, system-ui, sans-serif" 
+        font-size="275" 
+        font-weight="bold" 
+        text-anchor="middle" 
+        dominant-baseline="central" 
+        fill="white">MD</text>
+  
+  <!-- Document lines below MD as white text representation (tiny bit more to the left) -->
+  <g fill="white" opacity="0.9">
+    <rect x="310" y="580" width="405" height="15" rx="7"/>
+    <rect x="310" y="620" width="350" height="15" rx="7"/>
+    <rect x="310" y="660" width="375" height="15" rx="7"/>
+    <rect x="310" y="700" width="250" height="15" rx="7"/>
+    <rect x="310" y="740" width="325" height="15" rx="7"/>
+  </g>
+</svg>

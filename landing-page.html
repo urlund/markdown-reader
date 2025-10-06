@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🪶 Markdown Reader - A beautifully simple, professional way to read and manage Markdown files</title>
+    <meta name="description" content="A beautifully simple, professional way to read and manage Markdown files. Enjoy a clean, GitHub-style reading experience with tabs, themes, instant search, and effortless organization.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary-color: #f8fafc;
+            --accent-color: #10b981;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .hero-icon {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .cta-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="g" cx="20" cy="20" r="20"><stop stop-color="%23ffffff" stop-opacity="0.03"/><stop offset="1" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><rect width="100" height="20" fill="url(%23g)"/></svg>');
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-color);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 0;
+            background: var(--secondary-color);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            transition: all 0.2s;
+            border: 1px solid var(--border-color);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .feature-list li {
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* Use Cases Section */
+        .use-cases {
+            padding: 6rem 0;
+            background: white;
+        }
+
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .use-case {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .use-case-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .use-case h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .use-case p {
+            color: var(--text-light);
+        }
+
+        /* Screenshots Section */
+        .screenshots {
+            padding: 6rem 0;
+            background: var(--secondary-color);
+        }
+
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .screenshot {
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .screenshot:hover {
+            transform: scale(1.02);
+        }
+
+        .screenshot img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .screenshot-placeholder {
+            aspect-ratio: 16/10;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* CTA Section */
+        .final-cta {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .final-cta p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p, .footer-section li {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .features-grid,
+            .screenshot-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <img src="icon.png" alt="Markdown Reader" class="logo-icon">
+                <span>Markdown Reader</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#use-cases">Use Cases</a></li>
+                <li><a href="#download">Download</a></li>
+            </ul>
+            <a href="#download" class="cta-button">Download Free</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content fade-in">
+                <img src="icon.png" alt="Markdown Reader" class="hero-icon">
+                <h1>🪶 Markdown Reader</h1>
+                <p>Enjoy a clean, GitHub-style reading experience — with tabs, themes, instant search, and effortless organization — all wrapped in a fast, cross-platform desktop app.</p>
+                <div class="hero-buttons">
+                    <a href="#download" class="btn-primary">
+                        <span>⬇️</span>
+                        Download Free
+                    </a>
+                    <a href="#features" class="btn-secondary">
+                        <span>🚀</span>
+                        See Features
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>✨ Why People Love It</h2>
+                <p>Markdown Reader gives your Markdown documents the polish they deserve. Work smarter with a familiar, browser-like interface and enjoy professional, GitHub-style typography.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <span class="feature-icon">🗂️</span>
+                    <h3>Effortless Organization with Tabs</h3>
+                    <p>Work smarter with a familiar, browser-like interface. Open multiple Markdown files at once in neatly organized tabs.</p>
+                    <ul class="feature-list">
+                        <li>Open multiple Markdown files at once in organized tabs</li>
+                        <li>Rearrange tabs by dragging and dropping — just like Chrome</li>
+                        <li>Hover to see full file paths or click the file icon to copy instantly</li>
+                        <li>A friendly Welcome Tab helps you jump back into recent files</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <span class="feature-icon">🔍</span>
+                    <h3>Find Anything Instantly</h3>
+                    <p>No more scrolling endlessly. Use Cmd/Ctrl + F to search within your document, or jump between sections using an automatically generated Table of Contents.</p>
+                    <ul class="feature-list">
+                        <li>Instant search within documents with Cmd/Ctrl + F</li>
+                        <li>Jump between sections with auto-generated Table of Contents</li>
+                        <li>Keyboard shortcuts make navigation lightning fast</li>
+                        <li>Hide or show TOC whenever you like with Cmd/Ctrl + T</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <span class="feature-icon">📑</span>
+                    <h3>Auto-Generated Table of Contents</h3>
+                    <p>Long document? No problem. Markdown Reader automatically builds a clickable outline of your file, so you can move between headings effortlessly.</p>
+                    <ul class="feature-list">
+                        <li>Automatically builds clickable outline of your file</li>
+                        <li>Move between headings effortlessly</li>
+                        <li>Hide or show it whenever you like with Cmd/Ctrl + T</li>
+                        <li>Perfect for long documents and documentation</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <span class="feature-icon">🎨</span>
+                    <h3>Beautiful Themes & Readable Design</h3>
+                    <p>Choose between Light and Dark themes — your choice is remembered every time. Enjoy professional, GitHub-style typography and syntax-highlighted code blocks.</p>
+                    <ul class="feature-list">
+                        <li>Choose between Light and Dark themes</li>
+                        <li>Your theme choice is remembered every time</li>
+                        <li>Professional, GitHub-style typography</li>
+                        <li>Syntax-highlighted code blocks that look great</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <span class="feature-icon">📁</span>
+                    <h3>Smart File Management</h3>
+                    <p>Open, view, and manage Markdown files your way. Double-click or drag & drop files straight into the app, keep multiple projects open in separate windows.</p>
+                    <ul class="feature-list">
+                        <li>Double-click or drag & drop files straight into the app</li>
+                        <li>Keep multiple projects open in separate windows</li>
+                        <li>Instantly reopen recent files from the menu or Welcome screen</li>
+                        <li>Watch files update in real-time when edited in other programs</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <span class="feature-icon">⚡</span>
+                    <h3>Fast, Reliable, and Cross-Platform</h3>
+                    <p>Markdown Reader is built for speed and stability. It runs natively on macOS, Windows, and Linux, works entirely offline, and keeps every tab’s position, theme, and state saved.</p>
+                    <ul class="feature-list">
+                        <li>Runs natively on macOS, Windows, and Linux</li>
+                        <li>Works entirely offline — no internet required</li>
+                        <li>Every tab’s position, theme, and state saved between sessions</li>
+                        <li>Built for speed and stability</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section id="use-cases" class="use-cases">
+        <div class="container">
+            <div class="section-header">
+                <h2>💻 Made for Everyone</h2>
+                <p>Whether you're a writer, developer, student, or researcher — Markdown Reader makes your workflow faster and more enjoyable.</p>
+            </div>
+            
+            <div class="use-cases-grid">
+                <div class="use-case fade-in">
+                    <span class="use-case-icon">✍️</span>
+                    <h3>Writers & Bloggers</h3>
+                    <p>Read and preview your notes and posts in style with beautiful formatting and distraction-free reading</p>
+                </div>
+                
+                <div class="use-case fade-in">
+                    <span class="use-case-icon">👨‍💻</span>
+                    <h3>Developers</h3>
+                    <p>Syntax-highlighted code blocks for quick reference and technical documentation that looks professional</p>
+                </div>
+                
+                <div class="use-case fade-in">
+                    <span class="use-case-icon">🎓</span>
+                    <h3>Students & Researchers</h3>
+                    <p>Easy navigation and multi-tab organization for research papers, notes, and academic writing</p>
+                </div>
+                
+                <div class="use-case fade-in">
+                    <span class="use-case-icon">�</span>
+                    <h3>Anyone who loves Markdown</h3>
+                    <p>Simple. Fast. Beautiful. The cleanest reading experience for all your Markdown needs</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section class="screenshots">
+        <div class="container">
+            <div class="section-header">
+                <h2>🌙 Your Style, Your Way</h2>
+                <p>Choose between Light and Dark themes — your choice is remembered every time. Your preferred theme, window size, and last opened files are all remembered.</p>
+            </div>
+            
+            <div class="screenshot-grid">
+                <div class="screenshot fade-in">
+                    <img src="screenshot-light.png" alt="Markdown Reader Light Theme" loading="lazy">
+                </div>
+                <div class="screenshot fade-in">
+                    <img src="screenshot-dark.png" alt="Markdown Reader Dark Theme" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section id="download" class="final-cta">
+        <div class="container">
+            <h2>🚀 Get Started</h2>
+            <p><strong>The easiest, fastest, and most beautiful way to read Markdown on your desktop.</strong></p>
+            <div class="hero-buttons">
+                <a href="#" class="btn-primary">
+                    <span>⬇️</span>
+                    Download for macOS
+                </a>
+                <a href="#" class="btn-primary">
+                    <span>⬇️</span>
+                    Download for Windows
+                </a>
+                <a href="#" class="btn-primary">
+                    <span>⬇️</span>
+                    Download for Linux
+                </a>
+            </div>
+            <p style="margin-top: 1rem; opacity: 0.8; font-size: 0.9rem;">⚙️ No Setup Hassle — Just install and start reading!</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>📖 Markdown Reader</h3>
+                    <p>Open source, fast, secure, and made with love using Electron and modern web technologies.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="#features">Multi-tab Interface</a></li>
+                        <li><a href="#features">Live File Watching</a></li>
+                        <li><a href="#features">Syntax Highlighting</a></li>
+                        <li><a href="#features">Smart Search</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">GitHub Issues</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Keyboard Shortcuts</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Platform Support</h3>
+                    <ul>
+                        <li>🍎 macOS</li>
+                        <li>🪟 Windows</li>
+                        <li>🐧 Linux</li>
+                        <li>💾 Cross-platform</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>❤️ Built with love using Electron and modern web technology. The cleanest reading experience for your Markdown files.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
