@@ -371,9 +371,6 @@ async function openFileInWindow(win, filePath) {
 // Store files to open if app isn't ready yet
 let filesToOpen = [];
 
-// Auto-updater configuration
-autoUpdater.checkForUpdatesAndNotify();
-
 // Auto-updater events
 autoUpdater.on('checking-for-update', () => {
   console.log('Checking for update...');
